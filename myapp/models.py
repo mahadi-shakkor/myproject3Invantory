@@ -132,6 +132,16 @@ class UseContactEmail(models.Model):
         unique_together = (('uid', 'emailaddresses'),)
 
 
+class UseContactNumber(models.Model):
+    uid = models.OneToOneField('User', models.DO_NOTHING, db_column='uid', primary_key=True)  # The composite primary key (uid, ContactNumber) found, that is not supported. The first column is selected.
+    contactnumber = models.CharField(db_column='ContactNumber', max_length=255)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'use_contact_number'
+        unique_together = (('uid', 'contactnumber'),)
+
+
 class User(models.Model):
     uid = models.IntegerField(primary_key=True)
     fname = models.CharField(max_length=255, blank=True, null=True)
