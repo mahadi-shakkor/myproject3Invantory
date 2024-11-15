@@ -1,41 +1,90 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password
+from .forms import UserSignupForm
+from .models import User, UseContactEmail, UseContactNumber
 
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import UseContactEmail, User
-from .forms import UseContactEmailForm  # We'll create this form
-
-# Create View
-def create_email(request):
-    if request.method == "POST":
-        form = UseContactEmailForm(request.POST)
+def signup(request):
+    if request.method == 'POST':
+        form = UserSignupForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("email_list")  # Redirect to the list view
+            # Extract cleaned data
+            fname = form.cleaned_data['fname']
+            mname = form.cleaned_data['mname']
+            lname = form.cleaned_data['lname']
+            utype = form.cleaned_data['utype']
+            password = form.cleaned_data['password']
+            email_addresses = form.cleaned_data['email_addresses']
+            contact_number = form.cleaned_data['contact_number']
+
+            # Save user data to the database
+            user = User(
+                fname=fname,
+                mname=mname,
+                lname=lname,
+                utype=utype,
+                password=make_password(password)  # Hash the password
+            )
+            user.save()
+            print(user.password)
+
+            # Save contact email and number
+            UseContactEmail.objects.create(uid=user, email_addresses=email_addresses)
+            UseContactNumber.objects.create(uid=user, contact_number=contact_number)
+
+            # Redirect to the same page after successful sign-up
+            return redirect('signup')
     else:
-        form = UseContactEmailForm()
-    return render(request, "create_email.html", {"form": form})
+        form = UserSignupForm()
 
-# Read/List View
-def email_list(request):
-    emails = UseContactEmail.objects.all()
-    return render(request, "email_list.html", {"emails": emails})
+    return render(request, 'signup.html', {'form': form})
 
-# Update View
-def update_email(request, pk):
-    email = get_object_or_404(UseContactEmail, pk=pk)
-    if request.method == "POST":
-        form = UseContactEmailForm(request.POST, instance=email)
+
+
+
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import check_password
+from django.contrib import messages
+from .models import User
+from .forms import UserLoginForm
+
+def login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("email_list")
-    else:
-        form = UseContactEmailForm(instance=email)
-    return render(request, "update_email.html", {"form": form})
+            uid = form.cleaned_data['uid']
+            password = form.cleaned_data['password']
 
-# Delete View
-def delete_email(request, pk):
-    email = get_object_or_404(UseContactEmail, pk=pk)
-    if request.method == "POST":
-        email.delete()
-        return redirect("email_list")
-    return render(request, "delete_email.html", {"email": email})
+            # Authenticate user
+            try:
+                user = User.objects.get(uid=uid)
+                if check_password(password, user.password):
+                    # Set session
+                    request.session['uid'] = user.uid
+                    request.session['fname'] = user.fname
+                    messages.success(request, "Logged in successfully!")
+                    return redirect('home')  # Redirect to a home page or dashboard
+                else:
+                    messages.error(request, "Invalid password!")
+            except User.DoesNotExist:
+                messages.error(request, "User ID does not exist!")
+    else:
+        form = UserLoginForm()
+
+    return render(request, 'login.html', {'form': form})
+
+
+
+def logout(request):
+    request.session.flush()  # Clear all session data
+    messages.success(request, "Logged out successfully!")
+    return redirect('login')  # Redirect to login page
+
+
+def home(request):
+    if 'uid' not in request.session:
+        return redirect('login')  # Redirect to login if not authenticated
+    return render(request, 'logout.html', {'fname': request.session.get('fname')})
+

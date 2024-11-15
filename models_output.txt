@@ -123,27 +123,27 @@ class DjangoSession(models.Model):
 
 
 class UseContactEmail(models.Model):
-    uid = models.OneToOneField('User', models.DO_NOTHING, db_column='uid', primary_key=True)  # The composite primary key (uid, email_addresses) found, that is not supported. The first column is selected.
-    email_addresses = models.CharField(max_length=255)
+    uid = models.OneToOneField('User', models.DO_NOTHING, db_column='uid', primary_key=True)  # The composite primary key (uid, EmailAddresses) found, that is not supported. The first column is selected.
+    emailaddresses = models.CharField(db_column='EmailAddresses', max_length=255)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'use_contact_email'
-        unique_together = (('uid', 'email_addresses'),)
+        unique_together = (('uid', 'emailaddresses'),)
 
 
 class UseContactNumber(models.Model):
-    uid = models.OneToOneField('User', models.DO_NOTHING, db_column='uid', primary_key=True)  # The composite primary key (uid, contact_number) found, that is not supported. The first column is selected.
-    contact_number = models.CharField(max_length=255)
+    uid = models.OneToOneField('User', models.DO_NOTHING, db_column='uid', primary_key=True)  # The composite primary key (uid, ContactNumber) found, that is not supported. The first column is selected.
+    contactnumber = models.CharField(db_column='ContactNumber', max_length=255)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'use_contact_number'
-        unique_together = (('uid', 'contact_number'),)
+        unique_together = (('uid', 'contactnumber'),)
 
 
 class User(models.Model):
-    uid = models.AutoField(primary_key=True)
+    uid = models.IntegerField(primary_key=True)
     fname = models.CharField(max_length=255, blank=True, null=True)
     mname = models.CharField(max_length=255, blank=True, null=True)
     lname = models.CharField(max_length=255, blank=True, null=True)

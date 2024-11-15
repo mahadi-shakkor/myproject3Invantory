@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp',  # Add your app here
+    'myapp', 
+     'django_extensions', # Add your app here
 ]
 
 
@@ -80,13 +81,14 @@ WSGI_APPLICATION = 'myproject3.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'invantory',  # Replace with your database name
-        'USER': 'root',       # Replace with your MySQL username
-        'PASSWORD': '22322232',   # Replace with your MySQL password
-        'HOST': '127.0.0.1',           # Or your database host
+        'NAME': 'invantory',           # Your database name
+        'USER': 'root',                # The user you granted privileges to
+        'PASSWORD': '22322232',        # The password you set for the user
+        'HOST': '127.0.0.1',           # MySQL server is running locally
         'PORT': '3306',                # Default MySQL port
     }
 }
+
 
 
 
