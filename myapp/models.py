@@ -142,7 +142,7 @@ class UseContactNumber(models.Model):
         unique_together = (('uid', 'contact_number'),)
 
 
-class User(models.Model):
+class  User(models.Model):
     uid = models.AutoField(primary_key=True)
     fname = models.CharField(max_length=255, blank=True, null=True)
     mname = models.CharField(max_length=255, blank=True, null=True)
