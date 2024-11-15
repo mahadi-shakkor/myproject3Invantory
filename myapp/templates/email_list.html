@@ -1,0 +1,10 @@
+<h2>Email List</h2>
+<ul>
+    {% for email in emails %}
+        <li>{{ email.emailaddresses }} - 
+            <a href="{% url 'update_email' email.pk %}">Edit</a> | 
+            <a href="{% url 'delete_email' email.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'create_email' %}">Add New Email</a>

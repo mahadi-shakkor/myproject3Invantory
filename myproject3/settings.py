@@ -52,10 +52,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'myproject3.urls'
 
+import os
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Add this line
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +69,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'myproject3.wsgi.application'
 

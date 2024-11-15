@@ -1,0 +1,7 @@
+<h2>Delete Email</h2>
+<p>Are you sure you want to delete "{{ email.emailaddresses }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm</button>
+</form>
+<a href="{% url 'email_list' %}">Cancel</a>

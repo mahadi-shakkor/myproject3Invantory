@@ -1,0 +1,24 @@
+pip install django mysqlclient
+django-admin startproject myproject
+cd myproject
+django-admin startproject myproject2
+django-admin startproject myproject3
+cd myproject3
+dor
+dir
+code .
+python manage.py startapp myapp
+python manage.py inspectdb > myapp/models.py
+python manage.py makemigrations
+python manage.py migrate
+python manage.py shell
+python manage.py runserver
+python manage.py showmigrations
+python manage.py diffsettings
+python manage.py inspectdb
+python manage.py show_urls
+python manage.py migrate --plan
+tree /f
+dir /s /b
+your_commands > output.txt
+doskey /history > command_history.txt
