@@ -32,7 +32,7 @@ def signup(request):
             UseContactNumber.objects.create(uid=user, contact_number=contact_number)
 
             # Redirect to the same page after successful sign-up
-            return redirect('signup')
+            return redirect('login')
     else:
         form = UserSignupForm()
 
