@@ -1,7 +1,7 @@
 from django import forms
 from .models import User, UseContactEmail, UseContactNumber
 
-class UserSignupForm(forms.Form):
+class  UserSignupForm(forms.Form):
     fname = forms.CharField(label="First Name", max_length=255, required=True)
     mname = forms.CharField(label="Middle Name", max_length=255, required=False)
     lname = forms.CharField(label="Last Name", max_length=255, required=True)
