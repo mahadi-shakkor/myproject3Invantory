@@ -86,5 +86,5 @@ def logout(request):
 def home(request):
     if 'uid' not in request.session:
         return redirect('login')  # Redirect to login if not authenticated
-    return render(request, 'logout.html', {'fname': request.session.get('fname')})
+    return render(request, 'home.html', {'fname': request.session.get('fname')})
 
