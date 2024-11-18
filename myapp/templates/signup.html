@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +9,12 @@
 <body>
   <div class="container mt-5">
     <h2 class="text-center">Sign Up</h2>
+
+    <!-- Display the total user count -->
+    <p class="text-center">
+      Your ID <strong>{{ user_count }}</strong> (Please remember for login) 
+    </p>
+
     <form method="POST" action="">
       {% csrf_token %}
       {{ form.as_p }}
@@ -18,7 +23,6 @@
       <p class="text-center mt-3">
         Have an account? <a href="{% url 'login' %}">login here</a>
       </p>
-
     </form>
   </div>
 </body>

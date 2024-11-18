@@ -77,6 +77,18 @@ class AuthUserUserPermissions(models.Model):
         unique_together = (('user', 'permission'),)
 
 
+class DidPidRidNid(models.Model):
+    did = models.OneToOneField('User', models.DO_NOTHING, db_column='did', primary_key=True)  # The composite primary key (did, pid, rid, nid) found, that is not supported. The first column is selected.
+    pid = models.IntegerField()
+    rid = models.IntegerField()
+    nid = models.ForeignKey('User', models.DO_NOTHING, db_column='nid', related_name='didpidridnid_nid_set')
+
+    class Meta:
+        managed = False
+        db_table = 'did_pid_rid_nid'
+        unique_together = (('did', 'pid', 'rid', 'nid'),)
+
+
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -122,6 +134,29 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class ProductNutrition(models.Model):
+    pid = models.OneToOneField('Products', models.DO_NOTHING, db_column='pid', primary_key=True)  # The composite primary key (pid, vitamin, amount) found, that is not supported. The first column is selected.
+    vitamin = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        managed = False
+        db_table = 'product_nutrition'
+        unique_together = (('pid', 'vitamin', 'amount'),)
+
+
+class Products(models.Model):
+    pid = models.OneToOneField('User', models.DO_NOTHING, db_column='pid', primary_key=True)
+    pfastname = models.CharField(max_length=255, blank=True, null=True)
+    plastname = models.CharField(max_length=255, blank=True, null=True)
+    weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    unitprice = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'products'
+
+
 class UseContactEmail(models.Model):
     uid = models.OneToOneField('User', models.DO_NOTHING, db_column='uid', primary_key=True)  # The composite primary key (uid, email_addresses) found, that is not supported. The first column is selected.
     email_addresses = models.CharField(max_length=255)
@@ -142,7 +177,7 @@ class UseContactNumber(models.Model):
         unique_together = (('uid', 'contact_number'),)
 
 
-class  User(models.Model):
+class User(models.Model):
     uid = models.AutoField(primary_key=True)
     fname = models.CharField(max_length=255, blank=True, null=True)
     mname = models.CharField(max_length=255, blank=True, null=True)

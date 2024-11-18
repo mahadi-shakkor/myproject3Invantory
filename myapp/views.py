@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from .forms import UserSignupForm
 from .models import User, UseContactEmail, UseContactNumber
-
 def signup(request):
+    # Get the total number of rows in the User table
+    user_count = User.objects.count()
+
     if request.method == 'POST':
         form = UserSignupForm(request.POST)
         if form.is_valid():
@@ -25,7 +27,6 @@ def signup(request):
                 password=make_password(password)  # Hash the password
             )
             user.save()
-            print(user.password)
 
             # Save contact email and number
             UseContactEmail.objects.create(uid=user, email_addresses=email_addresses)
@@ -36,7 +37,8 @@ def signup(request):
     else:
         form = UserSignupForm()
 
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form, 'user_count': user_count})
+
 
 
 
