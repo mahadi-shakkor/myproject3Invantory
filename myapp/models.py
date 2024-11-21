@@ -8,6 +8,14 @@
 from django.db import models
 
 
+class AggriculturalOfficer(models.Model):
+    aid = models.OneToOneField('User', models.DO_NOTHING, db_column='AID', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'aggricultural_officer'
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -89,6 +97,26 @@ class DidPidRidNid(models.Model):
         unique_together = (('did', 'pid', 'rid', 'nid'),)
 
 
+class DinsributorCompany(models.Model):
+    did = models.OneToOneField('User', models.DO_NOTHING, db_column='DID', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'dinsributor_company'
+
+
+class Distributorcompanydemand(models.Model):
+    quantity = models.IntegerField(db_column='Quantity', blank=True, null=True)  # Field name made lowercase.
+    price = models.DecimalField(db_column='Price', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    pid = models.OneToOneField('Product', models.DO_NOTHING, db_column='PID', primary_key=True)  # Field name made lowercase. The composite primary key (PID, DID) found, that is not supported. The first column is selected.
+    did = models.ForeignKey(DinsributorCompany, models.DO_NOTHING, db_column='DID')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'distributorcompanydemand'
+        unique_together = (('pid', 'did'),)
+
+
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -134,8 +162,61 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class Farmer(models.Model):
+    fid = models.OneToOneField('User', models.DO_NOTHING, db_column='FID', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'farmer'
+
+
+class Harvest(models.Model):
+    harvest_id = models.AutoField(db_column='Harvest_Id', primary_key=True)  # Field name made lowercase.
+    crop_type = models.CharField(max_length=255, blank=True, null=True)
+    hd = models.IntegerField(db_column='HD', blank=True, null=True)  # Field name made lowercase.
+    hm = models.IntegerField(db_column='HM', blank=True, null=True)  # Field name made lowercase.
+    hy = models.IntegerField(db_column='HY', blank=True, null=True)  # Field name made lowercase.
+    quantity = models.DecimalField(db_column='Quantity', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    hcity = models.CharField(db_column='Hcity', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    harea = models.CharField(db_column='Harea', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    hstreet = models.CharField(db_column='Hstreet', max_length=255, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'harvest'
+
+
+class Neutroshonist(models.Model):
+    nid = models.OneToOneField('User', models.DO_NOTHING, db_column='NID', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'neutroshonist'
+
+
+class Product(models.Model):
+    pid = models.AutoField(db_column='PID', primary_key=True)  # Field name made lowercase.
+    pfastname = models.CharField(db_column='PFastName', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    plastname = models.CharField(db_column='PLastName', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    weight = models.DecimalField(db_column='Weight', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    unitprice = models.DecimalField(db_column='UnitPrice', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    nid = models.ForeignKey(Neutroshonist, models.DO_NOTHING, db_column='NID', blank=True, null=True)  # Field name made lowercase.
+    exday = models.IntegerField(db_column='ExDay', blank=True, null=True)  # Field name made lowercase.
+    exm = models.IntegerField(db_column='ExM', blank=True, null=True)  # Field name made lowercase.
+    exy = models.IntegerField(db_column='ExY', blank=True, null=True)  # Field name made lowercase.
+    tem = models.DecimalField(db_column='TEM', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    humidity = models.DecimalField(db_column='Humidity', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    harvestid = models.ForeignKey(Harvest, models.DO_NOTHING, db_column='HarvestID', blank=True, null=True)  # Field name made lowercase.
+    fid = models.ForeignKey(Farmer, models.DO_NOTHING, db_column='FID', blank=True, null=True)  # Field name made lowercase.
+    aid = models.ForeignKey(AggriculturalOfficer, models.DO_NOTHING, db_column='AID', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'product'
+
+
 class ProductNutrition(models.Model):
-    pid = models.OneToOneField('Products', models.DO_NOTHING, db_column='pid', primary_key=True)  # The composite primary key (pid, vitamin, amount) found, that is not supported. The first column is selected.
+    pid = models.OneToOneField(Product, models.DO_NOTHING, db_column='PID', primary_key=True)  # Field name made lowercase. The composite primary key (PID, vitamin, amount) found, that is not supported. The first column is selected.
     vitamin = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -145,16 +226,47 @@ class ProductNutrition(models.Model):
         unique_together = (('pid', 'vitamin', 'amount'),)
 
 
-class Products(models.Model):
-    pid = models.OneToOneField('User', models.DO_NOTHING, db_column='pid', primary_key=True)
-    pfastname = models.CharField(max_length=255, blank=True, null=True)
-    plastname = models.CharField(max_length=255, blank=True, null=True)
-    weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    unitprice = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+class Productbuydistributorcompany(models.Model):
+    pid = models.OneToOneField(Product, models.DO_NOTHING, db_column='PID', primary_key=True)  # Field name made lowercase. The composite primary key (PID, DID) found, that is not supported. The first column is selected.
+    did = models.ForeignKey(DinsributorCompany, models.DO_NOTHING, db_column='DID')  # Field name made lowercase.
+    price = models.DecimalField(db_column='PRICE', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    quantity = models.IntegerField(db_column='QUANTITY', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'products'
+        db_table = 'productbuydistributorcompany'
+        unique_together = (('pid', 'did'),)
+
+
+class Resultnutritionvalue(models.Model):
+    resultid = models.OneToOneField('Samplingresult', models.DO_NOTHING, db_column='ResultID', primary_key=True)  # Field name made lowercase. The composite primary key (ResultID, VITAMIN, AMOUNT) found, that is not supported. The first column is selected.
+    vitamin = models.CharField(db_column='VITAMIN', max_length=100)  # Field name made lowercase.
+    amount = models.DecimalField(db_column='AMOUNT', max_digits=10, decimal_places=2)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'resultnutritionvalue'
+        unique_together = (('resultid', 'vitamin', 'amount'),)
+
+
+class Samplingresult(models.Model):
+    pid = models.ForeignKey(Product, models.DO_NOTHING, db_column='PID', blank=True, null=True)  # Field name made lowercase.
+    resultid = models.AutoField(db_column='ResultID', primary_key=True)  # Field name made lowercase.
+    ed = models.IntegerField(db_column='ED', blank=True, null=True)  # Field name made lowercase.
+    em = models.IntegerField(db_column='EM', blank=True, null=True)  # Field name made lowercase.
+    ey = models.IntegerField(db_column='EY', blank=True, null=True)  # Field name made lowercase.
+    humidity = models.DecimalField(db_column='Humidity', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    temptostore = models.DecimalField(db_column='TempToStore', max_digits=5, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    resultsali = models.CharField(db_column='ResultSaLi', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    rminute = models.IntegerField(db_column='RMinute', blank=True, null=True)  # Field name made lowercase.
+    rhour = models.IntegerField(db_column='RHour', blank=True, null=True)  # Field name made lowercase.
+    rday = models.IntegerField(db_column='RDay', blank=True, null=True)  # Field name made lowercase.
+    rmonth = models.IntegerField(db_column='RMonth', blank=True, null=True)  # Field name made lowercase.
+    ryear = models.IntegerField(db_column='RYear', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'samplingresult'
 
 
 class UseContactEmail(models.Model):
@@ -188,3 +300,11 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
+
+
+class Wirehousemanager(models.Model):
+    wid = models.OneToOneField(User, models.DO_NOTHING, db_column='WID', primary_key=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'wirehousemanager'

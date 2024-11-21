@@ -37,7 +37,7 @@ def signup(request):
     else:
         form = UserSignupForm()
 
-    return render(request, 'signup.html', {'form': form, 'user_count': user_count})
+    return render(request, 'signup.html', {'form': form, 'user_count': user_count+1})
 
 
 

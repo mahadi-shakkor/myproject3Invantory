@@ -9,6 +9,7 @@ class  UserSignupForm(forms.Form):
                                                           ('farmer', 'Farmer'),
                                                           ('wirehouse manaher', 'Wirehouse Manaher'),
                                                           ('distributor company', 'Distributor Company'),
+                                                          ('admin', 'Admin'),
                                                            ('neutritionist', 'Neutritionist')])
     password = forms.CharField(label="Password", widget=forms.PasswordInput, required=True)
     email_addresses = forms.EmailField(label="Email Address", required=True)

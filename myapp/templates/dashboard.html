@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventory Management Dashboard</title>
+  <title>Dashboard - Inventory Management</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -12,27 +12,25 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 20px;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" style="font-weight: bold;">Perishable Goods Management</a>
+      <a class="navbar-brand" href="#" style="font-weight: bold;">Inventory Dashboard</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="#harvest">Harvest</a></li>
+            <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="#harvest">Harvest</a></li>
           <li class="nav-item"><a class="nav-link" href="#warehouse">Warehouse</a></li>
           <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
           <li class="nav-item"><a class="nav-link" href="#distributors">Distributors</a></li>
           <li class="nav-item"><a class="nav-link" href="#users">Users</a></li>
           <li class="nav-item"><a class="nav-link" href="#reports">Reports</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log out</a></li>
-
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Dashboard -->
+  <!-- Dashboard Section -->
   <div class="container mt-4" id="dashboard">
     <h2 style="margin-bottom: 20px; color: #343a40;">Dashboard Overview</h2>
     <div class="row">
@@ -63,12 +61,12 @@
     </div>
   </div>
 
-  <!-- Harvest Management -->
-  <!-- <div class="container mt-4" id="harvest">
-    <h2 style="color: #343a40;">Harvest Management</h2>
+  <!-- Harvest Section -->
+  <div class="container mt-4" id="harvest">
+    <h2 style="color: #343a40; margin-bottom: 20px;">Harvest Management</h2>
     <form>
-      <div class="mb-3"> -->
-        <!-- <label for="cropType" class="form-label">Crop Type</label>
+      <div class="mb-3">
+        <label for="cropType" class="form-label">Crop Type</label>
         <input type="text" class="form-control" id="cropType" placeholder="Enter crop type">
       </div>
       <div class="mb-3">
@@ -80,37 +78,100 @@
         <input type="date" class="form-control" id="harvestDate">
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
-    </form> -->
-  <!-- </div> -->
+    </form>
+  </div>
 
-  <!-- Warehouse Management -->
+  <!-- Warehouse Section -->
   <div class="container mt-4" id="warehouse">
-    <h2 style="color: #343a40;">Warehouse Management</h2>
-    <p>Manage your warehouse details and link products to respective warehouses.</p>
+    <h2 style="color: #343a40; margin-bottom: 20px;">Warehouse Management</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Warehouse ID</th>
+          <th>Location</th>
+          <th>Capacity</th>
+          <th>Contact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>W001</td>
+          <td>New York</td>
+          <td>5000 Units</td>
+          <td>+1 234 567 890</td>
+        </tr>
+        <tr>
+          <td>W002</td>
+          <td>California</td>
+          <td>8000 Units</td>
+          <td>+1 987 654 321</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- Product Management -->
+  <!-- Products Section -->
   <div class="container mt-4" id="products">
-    <h2 style="color: #343a40;">Product Management</h2>
-    <p>Manage and track product nutrition details and expiration dates.</p>
+    <h2 style="color: #343a40; margin-bottom: 20px;">Product Management</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Product ID</th>
+          <th>Name</th>
+          <th>Expiration Date</th>
+          <th>Storage Conditions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>P001</td>
+          <td>Tomatoes</td>
+          <td>2024-12-01</td>
+          <td>Cool & Dry</td>
+        </tr>
+        <tr>
+          <td>P002</td>
+          <td>Apples</td>
+          <td>2024-11-30</td>
+          <td>Refrigerated</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- Distributor Management -->
+  <!-- Distributors Section -->
   <div class="container mt-4" id="distributors">
-    <h2 style="color: #343a40;">Distributor Management</h2>
-    <p>Track distributor details and monitor product demand.</p>
+    <h2 style="color: #343a40; margin-bottom: 20px;">Distributor Management</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Distributor ID</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Demand</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>D001</td>
+          <td>Fresh Foods Inc.</td>
+          <td>+1 555 123 456</td>
+          <td>2000 Units</td>
+        </tr>
+        <tr>
+          <td>D002</td>
+          <td>Healthy Supplies</td>
+          <td>+1 555 789 101</td>
+          <td>3000 Units</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- User Management -->
-  <div class="container mt-4" id="users">
-    <h2 style="color: #343a40;">User Management</h2>
-    <p>Manage roles and credentials for users like Warehouse Managers and Distributors.</p>
-  </div>
-
-  <!-- Reports -->
+  <!-- Reports Section -->
   <div class="container mt-4" id="reports">
-    <h2 style="color: #343a40;">Reports & Analytics</h2>
-    <p>Generate reports for inventory, sales, and product movement with visual graphs.</p>
+    <h2 style="color: #343a40; margin-bottom: 20px;">Reports & Analytics</h2>
+    <p>Generate inventory, sales, and product movement reports here. Charts can be integrated.</p>
   </div>
 
   <!-- Bootstrap JS -->
